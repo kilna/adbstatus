@@ -2,6 +2,7 @@
 
 import sys
 from pathlib import Path
+import tomllib
 
 # Define these variables first
 __version__ = None
@@ -9,17 +10,20 @@ __author__ = None
 __email__ = None
 
 for path in [
-  Path(__file__).parent.parent / "pyproject.toml",  # Development location
-  Path(__file__).parent / "pyproject.toml",  # Copied during install
+    Path(__file__).parent.parent / "pyproject.toml",  # Development location
+    Path(__file__).parent / "pyproject.toml",  # Copied during install
 ]:
-  if path.exists():
-    with open(path, "rb") as f:
-      pyproject = tomli.load(f)
-      __version__ = pyproject["project"]["version"]
-      __version_info__ = tuple(int(part) for part in __version__.split('.') if part.isdigit())
-      __author__ = pyproject["project"]["authors"][0].get("name")
-      __email__ = pyproject["project"]["authors"][0].get("email")
-      break
+    if path.exists():
+        try:
+            with open(path, "rb") as f:
+                pyproject = tomllib.load(f)
+                __version__ = pyproject["project"]["version"]
+                __version_info__ = tuple(int(part) for part in __version__.split('.') if part.isdigit())
+                __author__ = pyproject["project"]["authors"][0].get("name")
+                __email__ = pyproject["project"]["authors"][0].get("email")
+                break
+        except Exception as e:
+            sys.stderr.write(f"Warning: Could not load package metadata from {path}: {e}\n")
 
 if __version__ is None or __author__ is None or __email__ is None:
     sys.stderr.write("FATAL ERROR: Could not determine package version\n")
