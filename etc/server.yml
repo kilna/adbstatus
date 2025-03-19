@@ -1,0 +1,17 @@
+# ADB Status Server Configuration
+
+# Server settings
+port: 8999
+host: "0.0.0.0"
+
+# SSL Configuration
+ssl:
+  cert_dir: "/usr/local/etc/adbstatus/ssl"
+  # cert_file and key_file will be automatically derived from cert_dir
+  # cert_file: "cert.pem"  # Override if needed
+  # key_file: "key.pem"    # Override if needed
+
+# Logging
+logging:
+  file: "~/Library/Logs/adbstatus-server.log"
+  level: "info"  # debug, info, warning, error, critical 

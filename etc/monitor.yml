@@ -1,0 +1,37 @@
+# ADB Monitor Configuration
+
+# Monitor settings
+check_interval: 2  # seconds between device checks
+
+# Logging
+logging:
+  file: "~/Library/Logs/adbstatus-monitor.log"
+  level: "info"  # debug, info, warning, error, critical
+
+# Sleep/Wake Settings
+sleep_monitor:
+  enabled: true
+  pid_file: "~/.adbstatus_sleepwatcher.pid"
+
+# Device configurations
+devices:
+  - device:
+      # Filter by device properties (they must all be true)
+      # If no filters are provided, actions will apply to all devices
+      name: K106
+    connect: |
+      pgrep -f "TouchPortal" > /dev/null \
+        || /Applications/TouchPortal.app/Contents/MacOS/TouchPortal &
+      adb shell input keyevent 82 # Unlock the device
+      adb shell am start -n com.tpn.touchportal/.TPStartActivity \
+        --activity-brought-to-front --activity-clear-top
+    disconnect: |
+      pkill -f "TouchPortal" # Kill Touch Portal
+    sleep: |
+      # This is run when the desktop enters sleep mode
+      adb shell input keyevent KEYCODE_SLEEP # Put the device to sleep
+    wake: |
+      # This is run when the desktop wakes up from sleep mode
+      adb shell input keyevent KEYCODE_WAKEUP # Wake the device
+      adb shell am start -n com.tpn.touchportal/.TPStartActivity \
+        --activity-brought-to-front --activity-clear-top 
