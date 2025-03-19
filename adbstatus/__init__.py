@@ -2,6 +2,11 @@
 
 from pathlib import Path
 
+# Define these variables first
+__version__ = None
+__author__ = None
+__email__ = None
+
 for path in [
   Path(__file__).parent.parent / "pyproject.toml",  # Development location
   Path(__file__).parent / "pyproject.toml",  # Copied during install
