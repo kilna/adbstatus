@@ -1,33 +1,38 @@
 # ADB Status
 
-ADB Status is a set of utilities for monitoring and managing Android Debug Bridge (ADB) devices with sleep/wake support.
+ADB Status is a set of utilities MacOS for monitoring and managing Android Debug
+Bridge (ADB) devices with sleep/wake support.
 
 ## Features
 
 - Monitor Android devices connected via ADB
 - Automatically restore ADB connections after system sleep/wake cycles
-- Provide a secure HTTPS server for device status
-- Run custom scripts when devices connect, disconnect, or the system sleeps/wakes
+- Provides a secure JSON over HTTPS server for device status
+- Run custom scripts when devices connect, disconnect, or the system
+  sleeps/wakes
 - Integrate with sleepwatcher for system event handling
 
+## Components
+
+This installs three command-line utilities:
+
+- `adbstatus` - Query ADB device information in JSON
+- `adbstatus-server` - HTTPS server providing device status via JSON API
+- `adbstatus-monitor` - Device monitor with sleep/wake support and custom actions
+
 ## Installation
+
+### Using Homebrew (preferred)
+
+```bash
+brew tap kilna/adbstatus
+brew install adbstatus
+```
 
 ### Using pip
 
 ```bash
 pip install adbstatus
-```
-
-This installs three command-line utilities:
-- `adbstatus` - Query ADB device information in JSON or text format
-- `adbstatus-server` - HTTPS server providing device status via API
-- `adbstatus-monitor` - Device monitor with sleep/wake support and custom actions
-
-### Using Homebrew (macOS)
-
-```bash
-brew tap kilna/adbstatus
-brew install adbstatus
 ```
 
 ## Usage

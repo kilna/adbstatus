@@ -1,7 +1,7 @@
 # ADB Monitor Configuration
 
 # Monitor settings
-check_interval: 2  # seconds between device checks
+check_interval: 5  # seconds between device checks
 
 # Logging
 logging:
@@ -15,23 +15,47 @@ sleep_monitor:
 
 # Device configurations
 devices:
+  # Uncomment and modify these examples for your devices
+  # - device:
+  #     # Filter by device properties (they must all be true)
+  #     # If no filters are provided, actions will apply to all devices
+  #     name: "Device Name Example"
+  #     # serial: "DEVICE_SERIAL_NUMBER"  # Optional: filter by serial number
+  #   connect: |
+  #     # Commands to run when this device connects
+  #     echo "Device connected at $(date)" >> /tmp/device_connect.log
+  #     # Launch an application when device connects
+  #     # open /Applications/YourApp.app
+  #   disconnect: |
+  #     # Commands to run when this device disconnects
+  #     echo "Device disconnected at $(date)" >> /tmp/device_disconnect.log
+  #     # Kill an application when device disconnects
+  #     # pkill -f "ApplicationName"
+  #   sleep: |
+  #     # Commands to run when system sleeps and this device is connected
+  #     echo "System sleeping with device connected" >> /tmp/device_sleep.log
+  #     # Put the device to sleep
+  #     # adb -s $DEVICE_SERIAL shell input keyevent KEYCODE_SLEEP
+  #   wake: |
+  #     # Commands to run when system wakes and this device is connected
+  #     echo "System waking with device connected" >> /tmp/device_wake.log
+  #     # Wake up the device
+  #     # adb -s $DEVICE_SERIAL shell input keyevent KEYCODE_WAKEUP
+  
+  # A minimal example with no filters (applies to all devices)
   - device:
-      # Filter by device properties (they must all be true)
-      # If no filters are provided, actions will apply to all devices
-      name: K106
+      # No filters means this applies to all devices
     connect: |
-      pgrep -f "TouchPortal" > /dev/null \
-        || /Applications/TouchPortal.app/Contents/MacOS/TouchPortal &
-      adb shell input keyevent 82 # Unlock the device
-      adb shell am start -n com.tpn.touchportal/.TPStartActivity \
-        --activity-brought-to-front --activity-clear-top
+      # Simply log connection
+      echo "Device connected at $(date)" >> /tmp/adbstatus.log
     disconnect: |
-      pkill -f "TouchPortal" # Kill Touch Portal
+      # Simply log disconnection
+      echo "Device disconnected at $(date)" >> /tmp/adbstatus.log
     sleep: |
-      # This is run when the desktop enters sleep mode
-      adb shell input keyevent KEYCODE_SLEEP # Put the device to sleep
+      # When system sleeps, put connected devices to sleep
+      adb devices | grep -v "List" | grep "device" | cut -f1 | xargs -I{} adb -s {} shell input keyevent KEYCODE_SLEEP
     wake: |
-      # This is run when the desktop wakes up from sleep mode
-      adb shell input keyevent KEYCODE_WAKEUP # Wake the device
-      adb shell am start -n com.tpn.touchportal/.TPStartActivity \
-        --activity-brought-to-front --activity-clear-top 
+      # When system wakes, wake connected devices and restart adb server
+      adb kill-server
+      adb start-server
+      adb devices | grep -v "List" | grep "device" | cut -f1 | xargs -I{} adb -s {} shell input keyevent KEYCODE_WAKEUP 
