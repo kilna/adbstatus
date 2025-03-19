@@ -4,18 +4,22 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "adbstatus"
-dynamic = ["version"]
+version = "1.0.0"
 description = "Android Debug Bridge (ADB) device monitor with sleep/wake support"
 authors = [{name = "Kilna, Anthony", email = "kilna@kilna.com"}]
 readme = "README.md"
 license = {text = "MIT"}
+urls = {
+  Homepage = "https://github.com/kilna/adbstatus",
+  Repository = "https://github.com/kilna/adbstatus.git"
+}
+
 requires-python = ">=3.8"
 dependencies = [
   "tomli>=2.0.0;python_version<'3.11'"  # Python 3.11+ has tomllib in stdlib
   "psutil>=5.9.0",
   "pyyaml>=6.0"
 ]
-urls = {Homepage = "https://github.com/kilna/adbstatus", Repository = "https://github.com/kilna/adbstatus.git"}
 
 [project.scripts]
 adbstatus = "adbstatus.core:main"
@@ -27,6 +31,3 @@ packages = ["adbstatus"]
 
 [tool.setuptools.package-data]
 adbstatus = ["etc/*.yml"]
-
-[tool.setuptools.dynamic]
-version = {attr = "adbstatus.__version__"} 
