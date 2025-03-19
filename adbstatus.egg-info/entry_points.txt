@@ -1,4 +1,0 @@
-[console_scripts]
-adbstatus = adbstatus.core:main
-adbstatus-monitor = adbstatus.monitor:main
-adbstatus-server = adbstatus.server:main

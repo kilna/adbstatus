@@ -9,14 +9,11 @@ description = "Android Debug Bridge (ADB) device monitor with sleep/wake support
 authors = [{name = "Kilna, Anthony", email = "kilna@kilna.com"}]
 readme = "README.md"
 license = {text = "MIT"}
-urls = {
-  Homepage = "https://github.com/kilna/adbstatus",
-  Repository = "https://github.com/kilna/adbstatus.git"
-}
+urls = {Homepage = "https://github.com/kilna/adbstatus", Repository = "https://github.com/kilna/adbstatus.git"}
 
 requires-python = ">=3.8"
 dependencies = [
-  "tomli>=2.0.0;python_version<'3.11'"  # Python 3.11+ has tomllib in stdlib
+  "tomli>=2.0.0;python_version<'3.11'", # Python 3.11+ has tomllib in stdlib
   "psutil>=5.9.0",
   "pyyaml>=6.0"
 ]
