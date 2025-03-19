@@ -1,5 +1,7 @@
 """ADB Status - Android Debug Bridge (ADB) device monitor with sleep/wake support."""
 
+from pathlib import Path
+
 for path in [
   Path(__file__).parent.parent / "pyproject.toml",  # Development location
   Path(__file__).parent / "pyproject.toml",  # Copied during install
