@@ -1,5 +1,6 @@
 """ADB Status - Android Debug Bridge (ADB) device monitor with sleep/wake support."""
 
+import sys
 from pathlib import Path
 
 # Define these variables first
