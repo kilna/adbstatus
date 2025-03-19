@@ -4,10 +4,11 @@ import sys
 from pathlib import Path
 import tomllib
 
-# Define these variables first
+# Reset version variables
 __version__ = None
 __author__ = None
 __email__ = None
+__version_info__ = None
 
 for path in [
     Path(__file__).parent.parent / "pyproject.toml",  # Development location
@@ -23,10 +24,11 @@ for path in [
                 __email__ = pyproject["project"]["authors"][0].get("email")
                 break
         except Exception as e:
-            sys.stderr.write(f"Warning: Could not load package metadata from {path}: {e}\n")
+            sys.stderr.write(f"Error: Could not load package metadata from {path}: {e}\n")
+            sys.exit(1)
 
 if __version__ is None or __author__ is None or __email__ is None:
-    sys.stderr.write("FATAL ERROR: Could not determine package version\n")
+    sys.stderr.write("Error: Required metadata not found in pyproject.toml\n")
     sys.exit(1)
 
 # Import all classes with their original names
